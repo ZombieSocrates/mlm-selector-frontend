@@ -1,19 +1,17 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Look, it's a frontend"/>
+    <img id="logo" alt="Dem cats..." src="./assets/kittehs.png">
     <HostGrid/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 import HostGrid from './components/HostGrid.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
     HostGrid
   }
 }
@@ -27,5 +25,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#logo {
+  width: 175px;
+  height: 128px;
 }
 </style>
