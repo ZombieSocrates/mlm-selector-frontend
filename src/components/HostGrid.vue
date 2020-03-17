@@ -16,19 +16,25 @@ export default {
   // components: { HostCandidate}
   data: function () {
     return {
-      HostCount: 9,
-      HostList: [
-        { id: 1, name: 'Lord Farquad' },
-        { id: 2, name: 'Donkey' },
-        { id: 3, name: 'Shrek' },
-        { id: 4, name: 'Fiona' },
-        { id: 5, name: 'Puss N\' Boots' },
-        { id: 6, name: 'Humpty Dumpty' },
-        { id: 7, name: 'Robin Hood' },
-        { id: 8, name: 'Dragon' },
-        { id: 9, name: 'Gingerbread Man' }
-      ]
+      HostCount: 0,
+      HostList: [],
+      NextHostDate: ''
     }
+  },
+  created: function () {
+    const vm = this
+    fetch('./.netlify/functions/foo-bar')
+      .then(function (response) {
+        // response.text().then(console.log(text))
+        return response.json()
+      })
+      .then(function (data) {
+        console.log(data)
+        vm.HostCount = data.HostCount
+        vm.HostList = data.HostList
+        vm.NextHostDate = data.NextHostDate
+      })
+    console.log(vm.data)
   }
 }
 </script>
