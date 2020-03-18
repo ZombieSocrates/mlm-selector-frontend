@@ -2,6 +2,7 @@
   <div>
     <h1>Who's gonna host MLM on {{ nextHostDate }}?!?!</h1>
     <h2>Showing {{ numDisplay }} of {{ hostCount }} candidates </h2>
+    <span v-if=candidateSelected> WE GOT'EM!!!!</span>
     <table>
       <tr v-for="row in tableRows" :key="row">
         <td v-for="col in tableCols" :key="getDisplayIndex(row, col)" style="{ width: tdWidth }">
@@ -9,6 +10,7 @@
         </td>
       </tr>
     </table>
+    <button id=choose-host-button @click="chooseHostForMLM()">Pick a ChIDEOer, any ChIDEOer...</button>
   </div>
 </template>
 
@@ -27,7 +29,8 @@ export default {
       hostCount: 0,
       hostList: null,
       nextHostDate: '',
-      sampleHosts: null
+      sampleHosts: null,
+      candidateSelected: null
     }
   },
   created: function () {
@@ -62,6 +65,11 @@ export default {
     getDesignerName: function (row, col) {
       const designerToShow = this.sampleHosts[this.getDisplayIndex(row, col)]
       return designerToShow === undefined ? '' : designerToShow.name
+    },
+    chooseHostForMLM: function () {
+      const choiceIndex = Math.floor(Math.random() * this.hostList.length)
+      this.candidateSelected = this.hostList[choiceIndex]
+      alert(`I CHOOSE YOU ${this.candidateSelected.name}!!!`)
     }
   },
   computed: {
@@ -100,5 +108,16 @@ td {
   font-family: 'Comic Sans MS';
   text-align: center;
   padding: 10px;
+}
+
+#choose-host-button {
+  display: inline-block;
+  background-color: #be03fc;
+  min-height: 50px;
+  font-family: 'Comic Sans MS';
+  color: white;
+  border-style: outset;
+  border-radius: 8px;
+  margin-top: 2em;
 }
 </style>
