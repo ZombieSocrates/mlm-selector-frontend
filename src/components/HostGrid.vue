@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h1>Who's gonna host MLM on {{ NextHostDate }}?!?!</h1>
-    <ul v-for="host in HostList" :key=host.id>
-      <b>{{ host.name}}???</b>
+    <h1>Who's gonna host MLM on {{ nextHostDate }}?!?!</h1>
+    <h2>Showing {{ numDisplay }} of {{ hostCount }} candidates </h2>
+    <ul v-for="cand in sampleHosts" :key="cand.id">
+        <b>{{ cand.name }}???</b>
     </ul>
   </div>
 </template>
@@ -11,12 +12,18 @@
 
 export default {
   name: 'HostGrid',
-  // components: { HostCandidate}
+  props: {
+    numDisplay: {
+      type: Number,
+      default: 30
+    }
+  },
   data: function () {
     return {
-      HostCount: 0,
-      HostList: [],
-      NextHostDate: ''
+      hostCount: 0,
+      hostList: [],
+      nextHostDate: '',
+      sampleHosts: []
     }
   },
   created: function () {
@@ -26,12 +33,31 @@ export default {
         return response.json()
       })
       .then(function (data) {
-        console.log(data)
-        vm.HostCount = data.HostCount
-        vm.HostList = data.HostList
-        vm.NextHostDate = data.NextHostWeek
+        vm.hostCount = data.HostCount
+        vm.hostList = data.HostList
+        vm.nextHostDate = data.NextHostWeek
+        vm.sampleHosts = vm.sampleCandidates(data.HostList)
       })
-    console.log(vm.data)
+  },
+  methods: {
+    sampleCandidates: function (candidateArray) {
+      const chosen = []
+      const displayIndices = []
+      while (chosen.length < this.numDisplay) {
+        const randIndex = Math.floor(Math.random() * candidateArray.length)
+        if (!displayIndices.includes(randIndex)) {
+          displayIndices.push(randIndex)
+          chosen.push(candidateArray[randIndex])
+        }
+      }
+      return chosen
+    },
+    tableRows: function () {
+      return Math.floor(Math.sqrt(this.numDisplay))
+    },
+    tableCols: function () {
+      return Math.ceil(this.numDisplay / this.tableRows)
+    }
   }
 }
 </script>
