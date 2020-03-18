@@ -2,9 +2,13 @@
   <div>
     <h1>Who's gonna host MLM on {{ nextHostDate }}?!?!</h1>
     <h2>Showing {{ numDisplay }} of {{ hostCount }} candidates </h2>
-    <ul v-for="cand in sampleHosts" :key="cand.id">
-        <b>{{ cand.name }}???</b>
-    </ul>
+    <table>
+      <tr v-for="row in tableRows" :key="row">
+        <td v-for="col in tableCols" :key="getDisplayIndex(row, col)" style="{ width: tdWidth }">
+        {{ getDesignerName(row, col) }}
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -21,9 +25,9 @@ export default {
   data: function () {
     return {
       hostCount: 0,
-      hostList: [],
+      hostList: null,
       nextHostDate: '',
-      sampleHosts: []
+      sampleHosts: null
     }
   },
   created: function () {
@@ -52,12 +56,26 @@ export default {
       }
       return chosen
     },
+    getDisplayIndex: function (row, col) {
+      return (row - 1) * this.tableCols + (col - 1)
+    },
+    getDesignerName: function (row, col) {
+      const designerToShow = this.sampleHosts[this.getDisplayIndex(row, col)]
+      return designerToShow === undefined ? '' : designerToShow.name
+    }
+  },
+  computed: {
     tableRows: function () {
       return Math.floor(Math.sqrt(this.numDisplay))
     },
     tableCols: function () {
       return Math.ceil(this.numDisplay / this.tableRows)
+    },
+    tdWidth: function () {
+      const tdw = (100 / this.tableCols + 2)
+      return `${tdw}%`
     }
+
   }
 }
 </script>
@@ -68,10 +86,19 @@ h1 {
   font-family: 'Comic Sans MS';
 }
 
-ul {
+h2 {
+  text-align: left;
+  font-family: 'Comic Sans MS';
+}
+
+table {
+  margin: auto;
+}
+
+td {
   list-style-type: none;
   font-family: 'Comic Sans MS';
-  text-align: left;
-  padding: 0;
+  text-align: center;
+  padding: 10px;
 }
 </style>
