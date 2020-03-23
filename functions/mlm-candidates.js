@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
 // TODO: UPDATE WITH HEROKU STUFF
-const endpoint = 'http://127.0.0.1:5000/getEligibleHosts'
+const endpoint = `https://ml-eminem.herokuapp.com/${process.env.VUE_APP_HOSTS_ENDPT}`
 
 
 exports.handler = async(event, context) => {

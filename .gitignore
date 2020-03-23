@@ -22,3 +22,6 @@ yarn-error.log*
 
 # Netlify
 .netlify
+
+# production .env
+.env
