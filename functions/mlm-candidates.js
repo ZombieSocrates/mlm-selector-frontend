@@ -1,7 +1,6 @@
 const fetch = require('node-fetch')
-// TODO: UPDATE WITH HEROKU STUFF
-const endpoint = `https://ml-eminem.herokuapp.com/${process.env.VUE_APP_HOSTS_ENDPT}`
 
+const endpoint = `https://ml-eminem.herokuapp.com/${process.env.VUE_APP_HOSTS_ENDPT}`
 
 exports.handler = async(event, context) => {
   const response = await fetch(endpoint)
